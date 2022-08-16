@@ -1,9 +1,10 @@
 plugins {
     id 'java'
     id 'application'
-    id 'checkstyle'
+    //id 'checkstyle'
     id 'com.adarshr.test-logger' version '3.2.0'
     id 'jacoco'
+    id 'io.ebean' version '13.6.5'
 }
 
 group 'hexlet.code'
@@ -18,6 +19,24 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
     implementation 'io.javalin:javalin:4.0.1'
     implementation 'org.slf4j:slf4j-simple:1.7.31'
+    implementation 'com.h2database:h2:1.4.200'
+    implementation 'org.postgresql:postgresql:42.4.1'
+
+    implementation 'org.thymeleaf:thymeleaf:3.0.15.RELEASE'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.4.RELEASE'
+    implementation 'org.webjars:bootstrap:5.1.3'
+
+    implementation 'io.ebean:ebean:13.6.5'
+    implementation 'io.ebean:ebean-querybean:13.6.5'
+    implementation 'io.ebean:ebean-annotation:8.2'
+    implementation 'io.ebean:ebean-migration:13.6.0'
+    implementation 'io.ebean:ebean-ddl-generator:13.6.5'
+
+    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.5'
+    implementation 'javax.activation:activation:1.1.1'
+
+    annotationProcessor 'io.ebean:querybean-generator:13.6.5'
 }
 
 test {
@@ -32,6 +51,9 @@ compileJava {
     options.release = 17
 }
 
+//Необходимо для того, что бы сгенерированные Q-классы тоже включались в сборку приложения
+sourceSets.main.java.srcDirs = ['src/main/java', 'build/generated/sources/annotationProcessor/java/main']
+
 jacocoTestReport {
     reports {
         xml.required = true
@@ -40,3 +62,8 @@ jacocoTestReport {
 
 task stage(dependsOn: ['clean', 'installDist'])
 installDist.mustRunAfter clean
+
+task generateMigrations(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'hexlet.code.MigrationGenerator'
+}
