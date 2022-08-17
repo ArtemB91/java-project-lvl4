@@ -1,6 +1,7 @@
 package hexlet.code;
 
 import hexlet.code.controllers.RootController;
+import hexlet.code.controllers.UrlController;
 import io.javalin.Javalin;
 import io.javalin.plugin.rendering.template.JavalinThymeleaf;
 import nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect;
@@ -34,6 +35,9 @@ public class App {
     private static void addRoutes(Javalin app) {
 
         app.get("/", RootController.welcome);
+        app.post("/urls", UrlController.addUrl);
+        app.get("/urls", UrlController.listUrls);
+        app.get("/urls/{id}", UrlController.showUrl);
     }
 
     private static TemplateEngine getTemplateEngine() {

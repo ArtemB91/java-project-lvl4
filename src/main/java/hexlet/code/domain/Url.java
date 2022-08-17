@@ -16,4 +16,20 @@ public class Url extends Model {
 
     @WhenCreated
     private Instant createdAt;
+
+    public Url(String name) {
+        this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
 }

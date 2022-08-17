@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/application.html}">
+
+<head>
+  <title>Страница</title>
+</head>
+<section layout:fragment="content">
+  <h1>Данные страницы</h1>
+  <div class="card" th:object="${url}">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item" th:text="'ID: ' + *{getId()}"></li>
+      <li class="list-group-item" th:text="'Имя: ' + *{getName()}"></li>
+        <li class="list-group-item" th:text="'Дата создания: ' + ${#temporals.format(url.getCreatedAt(), 'dd.MM.yyyy HH:mm', new java.util.Locale('ru', 'RU'))}"></li>
+     </ul>
+   </div>
+ </section>
