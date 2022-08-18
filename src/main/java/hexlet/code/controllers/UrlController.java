@@ -69,6 +69,7 @@ public class UrlController {
         Url url = new QUrl()
                 .id.equalTo(id)
                 .findOne();
+
         ctx.attribute("url", url);
         ctx.render("urls/show.html");
 
