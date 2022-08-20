@@ -9,13 +9,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-public class UrlController {
+public final class UrlController {
 
     private UrlController() {
         throw new IllegalStateException("Utility class");
     }
 
-    public static final Handler create = ctx -> {
+    public static Handler create = ctx -> {
         String urlParam = ctx.formParam("url");
 
         URL url;
@@ -48,7 +48,7 @@ public class UrlController {
 
     };
 
-    public static final Handler getAll = ctx -> {
+    public static Handler getAll = ctx -> {
         int page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(1);
         int rowsPerPage = 10;
         int offset = (page - 1) * rowsPerPage;
@@ -67,7 +67,7 @@ public class UrlController {
         ctx.render("urls/index.html");
     };
 
-    public static final Handler getOne = ctx -> {
+    public static Handler getOne = ctx -> {
         long id = ctx.pathParamAsClass("id", Long.class).getOrDefault(null);
 
         Url url = new QUrl()

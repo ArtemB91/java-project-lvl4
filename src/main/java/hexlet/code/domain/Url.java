@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.time.Instant;
+import java.util.Comparator;
 import java.util.List;
 
 @Entity
@@ -41,5 +42,12 @@ public final class Url extends Model {
 
     public List<UrlCheck> getUrlChecks() {
         return urlChecks;
+    }
+
+    public UrlCheck getActualCheck() {
+        return getUrlChecks().stream()
+                .sorted(Comparator.comparing(UrlCheck::getCreatedAt).reversed())
+                .findFirst()
+                .orElse(null);
     }
 }
