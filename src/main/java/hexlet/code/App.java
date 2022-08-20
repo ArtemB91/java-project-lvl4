@@ -1,6 +1,5 @@
 package hexlet.code;
 
-import hexlet.code.controllers.RootController;
 import hexlet.code.controllers.UrlCheckController;
 import hexlet.code.controllers.UrlController;
 import io.javalin.Javalin;
@@ -9,6 +8,10 @@ import nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+
+import static io.javalin.apibuilder.ApiBuilder.get;
+import static io.javalin.apibuilder.ApiBuilder.path;
+import static io.javalin.apibuilder.ApiBuilder.post;
 
 public class App {
     public static void main(String[] args) {
@@ -35,11 +38,14 @@ public class App {
 
     private static void addRoutes(Javalin app) {
 
-        app.get("/", RootController.welcome);
-        app.post("/urls", UrlController.addUrl);
-        app.get("/urls", UrlController.listUrls);
-        app.get("/urls/{id}", UrlController.showUrl);
-        app.post("/urls/{id}/checks", UrlCheckController.addCheck);
+        app.routes(() -> {
+            path("urls", () -> {
+                get(UrlController.getAll);
+                post(UrlController.create);
+                get("{id}", UrlController.getOne);
+                post("{id}/checks", UrlCheckController.create);
+            });
+        });
     }
 
     private static TemplateEngine getTemplateEngine() {

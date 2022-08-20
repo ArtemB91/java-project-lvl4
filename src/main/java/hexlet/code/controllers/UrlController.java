@@ -11,10 +11,14 @@ import java.util.List;
 
 public class UrlController {
 
-    public static Handler addUrl = ctx -> {
+    private UrlController() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    public static final Handler create = ctx -> {
         String urlParam = ctx.formParam("url");
 
-        URL url = null;
+        URL url;
         try {
             url = new URL(urlParam);
         } catch (MalformedURLException e) {
@@ -44,7 +48,7 @@ public class UrlController {
 
     };
 
-    public static Handler listUrls = ctx -> {
+    public static final Handler getAll = ctx -> {
         int page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(1);
         int rowsPerPage = 10;
         int offset = (page - 1) * rowsPerPage;
@@ -63,7 +67,7 @@ public class UrlController {
         ctx.render("urls/index.html");
     };
 
-    public static Handler showUrl = ctx -> {
+    public static final Handler getOne = ctx -> {
         long id = ctx.pathParamAsClass("id", Long.class).getOrDefault(null);
 
         Url url = new QUrl()
