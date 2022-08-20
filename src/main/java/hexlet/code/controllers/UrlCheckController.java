@@ -28,6 +28,7 @@ public final class UrlCheckController {
         UrlCheck urlCheck = UrlChecker.check(url);
         urlCheck.save();
 
+        ctx.sessionAttribute("flash", "Страница успешно проверена");
         ctx.redirect("/urls/" + urlId);
     };
 
