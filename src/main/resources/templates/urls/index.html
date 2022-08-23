@@ -13,16 +13,17 @@
   <th>Код ответа</th>
   </thead>
   <tbody>
-  <tr th:each="url : ${urls}" th:object="${url}">
+  <tr th:each="url : ${urls}" th:object="${url}" th:with="actualCheck=(*{getUrlChecks().isEmpty()}) ? null : *{getUrlChecks().get(getUrlChecks().size()-1)}">
     <td th:text="*{getId()}"></td>
     <td>
       <a th:text="*{getName()}" th:href="@{/urls/{id}(id=*{getId()})}"></a>
     </td>
+    <!-- Скорректировал. НО, где гарантия, что крайний элемент в массиве - это актуальная проверка ? :) -->
     <td>
-      <a th:text="(*{getActualCheck()} != null) ? ${#temporals.format(url.getActualCheck().getCreatedAt(), 'dd.MM.yyyy HH:mm')} : ''"></a>
+      <a th:text="(${actualCheck} != null) ? ${#temporals.format(actualCheck.getCreatedAt(), 'dd.MM.yyyy HH:mm')} : ''"></a>
     </td>
     <td>
-      <a th:text="(*{getActualCheck()} != null) ? *{getActualCheck().getStatusCode()} : ''"></a>
+      <a th:text="(${actualCheck} != null) ? ${actualCheck.getStatusCode()} : ''"></a>
     </td>
   </tr>
 </table>
